@@ -38,7 +38,8 @@ export default function Register() {
         password: values.password,
       });
       toast.success("Registered successfully!");
-      if (res.ok) {
+      console.log(res);
+      if (res.data) {
         navigate("/login");
       } else {
         throw Error("Registration failed");
