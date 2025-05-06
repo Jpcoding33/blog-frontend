@@ -33,9 +33,10 @@ export default function Write() {
   });
 
   const handleSubmit = async (values) => {
+    console.log(user);
     const newPost = {
       username: user.username,
-      userId: user._ID,
+      userId: user._id,
       title: values.title,
       category: values.category,
       desc: values.desc,
