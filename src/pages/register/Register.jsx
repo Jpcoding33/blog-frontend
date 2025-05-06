@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, TextField, Typography } from "@mui/material";
@@ -7,6 +7,8 @@ import Footer from "../../components/sidebar/Footer";
 import { toast } from "react-toastify";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -36,11 +38,17 @@ export default function Register() {
         password: values.password,
       });
       toast.success("Registered successfully!");
-      res.data && window.location.replace("/login");
+      if (res.ok) {
+        navigate("/login");
+      } else {
+        throw Error("Registration failed");
+      }
     } catch (err) {
       console.log(err);
       const errorMessage =
-        err.response?.data?.error || err.response?.data || "Register failed!";
+        err.response?.data?.error ||
+        err.response?.data ||
+        "Registration failed!";
       toast.error(errorMessage);
     }
   };
