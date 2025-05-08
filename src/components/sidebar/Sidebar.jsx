@@ -1,12 +1,10 @@
 import { Box, Grid, List, ListItem, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../api/axiosInstance";
 import About from "./About";
-import { Context } from "../../context/Context";
 
-export default function Sidebar() {
-  const { user } = useContext(Context);
+export default function Sidebar({ onSetPage }) {
   const [cats, setCats] = useState([]);
 
   useEffect(() => {
@@ -60,7 +58,11 @@ export default function Sidebar() {
                   key={c.name}
                   sx={{ display: "flex", justifyContent: "center" }}
                 >
-                  <Link to={`/?cat=${c.name}`} className="link">
+                  <Link
+                    to={`/?cat=${c.name}`}
+                    className="link"
+                    onClick={(e) => onSetPage(e, 1)}
+                  >
                     <ListItem>{c.name}</ListItem>
                   </Link>
                 </Grid>
@@ -80,7 +82,9 @@ export default function Sidebar() {
           </List>
         </Box>
       )}
-      {user && <About />}
+      <Box sx={{ display: ["none", "none", "flex"] }}>
+        <About />
+      </Box>
     </Box>
   );
 }
